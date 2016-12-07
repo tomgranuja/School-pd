@@ -24,9 +24,19 @@ def df_maker(data_file):
     table.set_index('date', inplace=True) #making it the index (useful??)
     return table
 
+def just_courses(df):
+    c = df.groupby([df.horario, df.sala, df.curso]).first()
+    c = c.reset_index(['horario', 'sala','curso'])
+    c = c[['horario', 'curso', 'sala']]
+    return c
+
 alumnos = df_maker(FILE1)
+cursos  = just_courses(alumnos)
 
 if __name__ == '__main__':
-    print('{} rows in dataframe:'.format(len(alumnos)))
-    print(alumnos.head(16))
+    print('{} rows in alumnos df:'.format(len(alumnos)))
+    print(alumnos.head(8))
+    print('...')
+    print('{} rows in cursos df:'.format(len(cursos)))
+    print(cursos.head(8))
     print('...')
